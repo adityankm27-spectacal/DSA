@@ -1,0 +1,27 @@
+Q1. INITIALIZE A GIT REPOSITORY AND PERFORM BASIC GIT OPERATIONS
+Project: StudentManagement
+Create the project and starter files:
+1. cd ~/Desktop
+2. mkdir StudentManagement
+3. cd StudentManagement
+4. printf "# Student Management System\n" > README.md
+5. printf "101 - Rahul - IT\n102 - Priya - CS\n103 - Amit - EXTC\n" > students.txt
+Initialize and inspect the repository:
+6. git init
+7. git branch -M main
+8. git status
+Stage and commit the initial files:
+9. git add README.md students.txt
+10. git status
+11. git commit -m "Initial commit"
+12. git log --oneline
+Modify a tracked file and compare the change:
+13. printf "104 - Sneha - IT\n" >> students.txt
+14. git status
+15. git diff
+16. git add students.txt
+17. git diff --staged
+18. git commit -m "Added new student"
+19. git log --oneline
+20. git status
+Expected final status: "nothing to commit, working tree clean".

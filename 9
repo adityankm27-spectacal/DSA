@@ -1,0 +1,211 @@
+Q9 — AUTOMATE WEB APPLICATION TESTING USING SELENIUM WEBDRIVER
+AIM
+Create a Maven Selenium project, display a login page, automate a valid login and an invalid login, verify
+the responses, capture a screenshot and inspect test results.
+IMPORTANT
+This is a self-contained demonstration login page for the practical. It is not a real authentication system
+and must not be used to protect real accounts. The valid credentials are deliberately hard-coded for the
+local demonstration.
+PART A — CHECK REQUIREMENTS
+1. Check Java:
+java -version
+Explanation: Selenium Java tests require Java to run.
+2. Check the Java compiler:
+javac -version
+Explanation: Confirms that a JDK is installed.
+3. Check Maven:
+mvn -version
+Explanation: Maven manages the Selenium and JUnit dependencies and runs the test.
+4. Confirm Google Chrome is installed.
+Explanation: The test will open Chrome and interact with the local login page.
+PART B — CREATE THE MAVEN PROJECT
+5. Move to the Desktop:
+cd ~/Desktop
+Explanation: Keeps the practical project in an easy-to-find location. In Windows Command Prompt use cd
+%USERPROFILE%\Desktop.
+6. Create and enter the project folder:
+mkdir SeleniumLoginDemo
+cd SeleniumLoginDemo
+Explanation: This is the root folder for the Selenium Maven project.
+7. Create the Maven folders:
+mkdir -p src/main/resources
+mkdir -p src/test/java
+Explanation:
+- src/main/resources will contain the demonstration HTML login page.
+- src/test/java will contain the Selenium test class.
+PART C — CREATE THE DEMONSTRATION LOGIN PAGE
+8. Inside src/main/resources, create a file named login.html.
+Explanation: This is the local web page Selenium will open in Chrome.
+9. Enter and save this complete HTML:
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login Demo</title>
+<meta charset="UTF-8">
+</head>
+<body>
+<h2>Student Login</h2>
+<label for="username">Username:</label>
+<input id="username" type="text">
+<br><br>
+<label for="password">Password:</label>
+<input id="password" type="password">
+<br><br>
+<button id="loginButton" onclick="login()">Login</button>
+<p id="message"></p>
+<script>
+function login() {
+var username = document.getElementById("username").value;
+var password = document.getElementById("password").value;
+var message = document.getElementById("message");
+if (username === "admin" && password === "12345") {
+message.textContent = "Login successful";
+} else {
+message.textContent = "Invalid username or password";
+}
+}
+</script>
+</body>
+</html>
+Explanation:
+- The page contains username and password input fields.
+- The Login button calls the JavaScript login() function.
+- The demonstration accepts username admin and password 12345.
+- A correct pair displays Login successful.
+- Any other pair displays Invalid username or password.
+- The message element has id=message so Selenium can locate and verify it.
+PART D — CREATE pom.xml WITH SELENIUM AND JUNIT
+10. Create pom.xml in the SeleniumLoginDemo root folder.
+Explanation: Maven uses this file to download Selenium WebDriver and JUnit.
+11. Enter and save this content:
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<modelVersion>4.0.0</modelVersion>
+<groupId>com.example</groupId>
+<artifactId>selenium-login-demo</artifactId>
+<version>1.0-SNAPSHOT</version>
+<properties>
+<maven.compiler.source>8</maven.compiler.source>
+<maven.compiler.target>8</maven.compiler.target>
+<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+</properties>
+<dependencies>
+<dependency>
+<groupId>org.seleniumhq.selenium</groupId>
+<artifactId>selenium-java</artifactId>
+<version>4.25.0</version>
+</dependency>
+<dependency>
+<groupId>junit</groupId>
+<artifactId>junit</artifactId>
+<version>4.13.2</version>
+<scope>test</scope>
+</dependency>
+</dependencies>
+</project>
+Explanation:
+- selenium-java provides WebDriver, ChromeDriver and browser interaction APIs.
+- JUnit provides @Test and assertions for checking the login result.
+- Maven downloads these dependencies from its configured repositories.
+- Selenium 4.25.0 uses Selenium Manager to help obtain a compatible driver when supported and internet
+access is available. If your lab supplies a specific Selenium version, use the lab version instead.
+PART E — CREATE THE SELENIUM TEST CLASS
+12. Inside src/test/java, create LoginTest.java.
+Explanation: This is the automated test class Maven/JUnit will run.
+13. Enter and save this Java code:
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
+import org.openqa.selenium.io.FileHandler;
+import java.io.File;
+import java.nio.file.Paths;
+import static org.junit.Assert.assertEquals;
+public class LoginTest {
+private WebDriver driver;
+@Before
+public void setUp() {
+ChromeOptions options = new ChromeOptions();
+driver = new ChromeDriver(options);
+}
+@Test
+public void validLoginTest() throws Exception {
+String page = Paths.get("src/main/resources/login.html")
+.toAbsolutePath().toUri().toString();
+driver.get(page);
+driver.findElement(By.id("username")).sendKeys("admin");
+driver.findElement(By.id("password")).sendKeys("12345");
+driver.findElement(By.id("loginButton")).click();
+String message = driver.findElement(By.id("message")).getText();
+assertEquals("Login successful", message);
+File screenshot = ((TakesScreenshot) driver)
+.getScreenshotAs(OutputType.FILE);
+FileHandler.copy(screenshot, new File("valid-login.png"));
+}
+@Test
+public void invalidLoginTest() {
+String page = Paths.get("src/main/resources/login.html")
+.toAbsolutePath().toUri().toString();
+driver.get(page);
+driver.findElement(By.id("username")).sendKeys("wronguser");
+driver.findElement(By.id("password")).sendKeys("wrongpass");
+driver.findElement(By.id("loginButton")).click();
+String message = driver.findElement(By.id("message")).getText();
+assertEquals("Invalid username or password", message);
+}
+@After
+public void tearDown() {
+if (driver != null) {
+driver.quit();
+}
+}
+}
+Explanation:
+- WebDriver controls the browser.
+- ChromeDriver starts and controls Google Chrome.
+- @Before runs setUp before each test and opens Chrome.
+- driver.get opens the local HTML page.
+- By.id locates page elements by their HTML id.
+- sendKeys types into the username/password fields.
+- click presses the Login button.
+- getText reads the message displayed by the page.
+- assertEquals checks that the displayed message matches the expected result.
+- TakesScreenshot captures the browser screen.
+- FileHandler.copy saves the screenshot as valid-login.png in the project working directory.
+- @After runs after each test and closes the browser with driver.quit().
+PART F — RUN SELENIUM TESTS
+14. Open a terminal in the SeleniumLoginDemo root folder (the folder containing pom.xml).
+Explanation: Maven needs to run from the project root.
+15. Run:
+mvn clean test
+Explanation: Maven downloads required dependencies if needed, compiles the test and runs both
+JUnit/Selenium tests.
+16. Wait for Chrome to open.
+Explanation: Selenium launches the browser and opens the local login page. The browser may open and
+close once for each test.
+17. Observe the valid login test.
+Explanation: Selenium enters admin and 12345, clicks Login and checks for Login successful.
+18. Observe the invalid login test.
+Explanation: Selenium enters incorrect credentials, clicks Login and checks for Invalid username or
+password.
+19. Wait for Maven to finish and inspect the terminal summary.
+Explanation: Both tests should pass if the browser opened, the page was found and the expected
+messages were displayed.
+20. Check the project root for valid-login.png.
+Explanation: The test saves a screenshot after successful login. If tests are run from Maven, the working
+directory is normally the project root.
+21. Open the screenshot and verify that it shows the login page with the successful message.
+Explanation: This is the screenshot evidence requested by the practical.
+22. Open target/surefire-reports.
+Explanation: Maven Surefire stores test execution reports here.
+23. Open the report for LoginTest.
+Explanation: Confirm that both validLoginTest and invalidLoginTest passed and that failures/errors are zero.
+EXPECTED Q9 EVIDENCE / SCREENSHOTS

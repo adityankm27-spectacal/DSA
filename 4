@@ -1,0 +1,45 @@
+Q4. DEMONSTRATE GIT COMMIT HISTORY AND VERSION COMPARISON
+Project: LibraryManagement
+Create project files:
+1. cd ~/Desktop
+2. mkdir LibraryManagement
+3. cd LibraryManagement
+4. printf "# Library Management\n" > README.md
+5. printf "Book 1 - The Alchemist\nBook 2 - Wings of Fire\n" > books.txt
+Initialize and make the first commit:
+6. git init
+7. git branch -M main
+8. git add .
+9. git commit -m "Initial library files"
+Make a first modification and stage it:
+10. printf "Book 3 - 1984\n" >> books.txt
+11. git add books.txt
+Make another modification but leave it UNSTAGED:
+12. printf "Book 4 - Dune\n" >> books.txt
+Inspect staged and unstaged changes:
+13. git status
+14. git diff
+15. git diff --staged
+Commit the staged change:
+16. git commit -m "Added third book"
+Make and commit another change:
+17. printf "Library opening hours: 9 AM to 5 PM\n" >> README.md
+18. git add README.md
+19. git commit -m "Added library opening hours"
+View complete and file-specific history:
+20. git log
+21. git log --oneline
+22. git log --oneline -- books.txt
+Compare the latest two commits:
+23. git diff HEAD~1 HEAD
+Compare a particular file between the latest two commits:
+24. git diff HEAD~1 HEAD -- books.txt
+Check final status:
+25. git status
+Expected final status: "nothing to commit, working tree clean".
+Note: The staged change in step 11 is committed in step 16; the unstaged change from step 12
+remains in the working tree. It is intentionally left unstaged for the demonstration. To finish with a
+clean repository, stage and commit it:
+26. git add books.txt
+27. git commit -m "Added fourth book"
+28. git status

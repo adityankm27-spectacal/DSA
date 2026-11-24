@@ -1,0 +1,40 @@
+Q5. DEMONSTRATE AND RESOLVE A GIT MERGE CONFLICT
+Project: GitMergeConflict
+Create a repository and a shared file:
+1. cd ~/Desktop
+2. mkdir GitMergeConflict
+3. cd GitMergeConflict
+4. printf "Project status: Initial\n" > status.txt
+5. git init
+6. git branch -M main
+7. git add status.txt
+8. git commit -m "Initial commit"
+Create a feature branch and change the same line:
+9. git switch -c feature
+10. printf "Project status: Updated by feature branch\n" > status.txt
+11. git add status.txt
+12. git commit -m "Update status on feature branch"
+Return to main and change that SAME line differently:
+13. git switch main
+14. printf "Project status: Updated by main branch\n" > status.txt
+15. git add status.txt
+16. git commit -m "Update status on main branch"
+Merge feature into main to produce a conflict:
+17. git merge feature
+Git should report a merge conflict in status.txt.
+Open the conflicted file:
+18. notepad status.txt
+Resolve the conflict manually in Notepad.
+Delete all conflict marker lines (<<<<<<<, =======, and >>>>>>>).
+Keep the final content you want, for example:
+Project status: Final resolved version
+Save and close Notepad.
+Mark the conflict as resolved and complete the merge:
+19. git status
+20. git add status.txt
+21. git status
+22. git commit -m "Resolve merge conflict"
+Verify the result:
+23. git log --oneline --graph --all
+24. git status
+Expected final status: "nothing to commit, working tree clean".

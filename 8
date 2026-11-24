@@ -1,0 +1,163 @@
+Q8 — PERFORM UNIT TESTING USING JUNIT
+AIM
+Create a Maven Calculator project, write arithmetic methods, create JUnit test cases, run tests, inspect
+test reports, demonstrate a failed test and then correct it.
+PART A — CHECK JAVA AND MAVEN
+1. Open Command Prompt or Git Bash.
+Explanation: You need a terminal to check the development tools and run Maven commands.
+2. Check the Java runtime:
+java -version
+Explanation: Displays the installed Java runtime version.
+3. Check the Java compiler:
+javac -version
+Explanation: Confirms that a JDK compiler is installed. Maven Java projects need a JDK.
+4. Check Maven:
+mvn -version
+Explanation: Displays Maven's version and the Java version Maven is using. If 'mvn' is not recognised,
+Maven is not installed or its bin folder is not on PATH.
+PART B — CREATE THE MAVEN PROJECT FOLDERS
+5. Move to the Desktop:
+cd ~/Desktop
+Explanation: Creates the practical project in an easy-to-find location. In Windows Command Prompt, use cd
+%USERPROFILE%\Desktop instead.
+6. Create the project folder:
+mkdir JUnitCalculator
+Explanation: Creates the root folder for the Maven project.
+7. Enter the folder:
+cd JUnitCalculator
+Explanation: All following project files and Maven commands will be created/run here.
+8. Create the Maven source and test folders:
+mkdir -p src/main/java
+mkdir -p src/test/java
+Explanation: Maven conventionally stores application code in src/main/java and test code in src/test/java. In
+Windows Command Prompt, create these folders using File Explorer or mkdir commands one folder at a
+time.
+PART C — CREATE pom.xml
+9. Create a file named pom.xml in the JUnitCalculator root folder.
+Explanation: pom.xml is Maven's Project Object Model file. It defines the project identity, Java compiler
+settings and external libraries.
+10. Put this content in pom.xml and save it:
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<modelVersion>4.0.0</modelVersion>
+<groupId>com.example</groupId>
+<artifactId>junit-calculator</artifactId>
+<version>1.0-SNAPSHOT</version>
+<properties>
+<maven.compiler.source>8</maven.compiler.source>
+<maven.compiler.target>8</maven.compiler.target>
+<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+</properties>
+<dependencies>
+<dependency>
+<groupId>junit</groupId>
+<artifactId>junit</artifactId>
+<version>4.13.2</version>
+<scope>test</scope>
+</dependency>
+</dependencies>
+</project>
+
+PART D — CREATE Calculator.java
+11. Inside src/main/java, create Calculator.java.
+Explanation: This is the application class containing the arithmetic methods being tested.
+12. Enter and save this code:
+public class Calculator {
+public int add(int a, int b) {
+return a + b;
+}
+public int subtract(int a, int b) {
+return a - b;
+}
+public int multiply(int a, int b) {
+return a * b;
+}
+public double divide(int a, int b) {
+if (b == 0) {
+throw new IllegalArgumentException("Cannot divide by zero");
+}
+return (double) a / b;
+}
+}
+PART E — CREATE CalculatorTest.java
+13. Inside src/test/java, create CalculatorTest.java.
+Explanation: Maven's standard test source folder is src/test/java. JUnit test classes are placed here.
+14. Enter and save this code:
+import org.junit.Test;
+import static org.junit.Assert.*;
+public class CalculatorTest {
+Calculator calculator = new Calculator();
+@Test
+public void testAddition() {
+assertEquals(10, calculator.add(5, 5));
+}
+@Test
+public void testSubtraction() {
+assertEquals(5, calculator.subtract(10, 5));
+}
+@Test
+public void testMultiplication() {
+assertEquals(25, calculator.multiply(5, 5));
+}
+@Test
+public void testDivision() {
+assertEquals(2.0, calculator.divide(10, 5), 0.001);
+}
+@Test(expected = IllegalArgumentException.class)
+public void testDivisionByZero() {
+calculator.divide(10, 0);
+}
+}
+Explanation:
+- @Test marks a method as a JUnit test.
+- assertEquals compares the expected result with the actual result.
+- For double values, the third argument is a tolerance (delta).
+- expected = IllegalArgumentException verifies that dividing by zero throws the expected exception.
+- Each test checks one behaviour of Calculator.
+PART F — RUN THE TESTS
+15. Return to the JUnitCalculator root folder (the folder containing pom.xml).
+Explanation: Maven commands should be run from the project root so Maven can find pom.xml.
+16. Run:
+mvn clean test
+Explanation:
+- clean removes files from the previous build under target.
+- test compiles the source and test code, then runs the JUnit tests.
+- The first run may take longer because Maven downloads plugins and JUnit.
+17. Wait for Maven to finish.
+Explanation: Do not close the terminal while Maven is downloading dependencies or running tests.
+18. Read the summary near the end of the output.
+Explanation: Maven reports the number of tests, failures, errors and skipped tests. A successful run ends
+with BUILD SUCCESS.
+PART G — VIEW THE GENERATED TEST REPORT
+19. Open the target/surefire-reports folder.
+Explanation: Maven Surefire generates test result reports in this folder after running tests.
+20. Find files similar to:
+TEST-CalculatorTest.xml
+CalculatorTest.txt
+Explanation: The XML report contains structured test results; the text report provides a readable summary.
+21. Open CalculatorTest.txt.
+Explanation: Confirm the test count and that failures/errors are zero for the corrected test suite.
+PART H — DEMONSTRATE A FAILED TEST AND CORRECT IT
+22. Open CalculatorTest.java.
+Explanation: You will deliberately make one expected result incorrect to demonstrate that JUnit detects a
+failed assertion.
+23. Temporarily change the addition assertion to:
+assertEquals(11, calculator.add(5, 5));
+Explanation: The expected value is intentionally wrong; 5 + 5 is 10, not 11.
+24. Save the file and run:
+mvn test
+Explanation: Maven reruns the tests. The addition test should fail because expected 11 does not match
+actual 10.
+25. Read the failure summary.
+Explanation: It should identify the failing test and show the expected and actual values.
+26. Correct the assertion back to:
+assertEquals(10, calculator.add(5, 5));
+Explanation: The expected value is now correct.
+27. Save and run:
+mvn clean test
+Explanation: This performs a clean test run after correcting the test.
+28. Verify BUILD SUCCESS and zero failures/errors.
+Explanation: This demonstrates both detection of an incorrect test expectation and successful execution
+after correction.

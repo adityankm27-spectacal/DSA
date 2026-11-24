@@ -1,0 +1,67 @@
+Q6 — JENKINS FREESTYLE BUILD AUTOMATION
+A. Understand the files supplied by the teacher
+1. README: explains the practical and the required Jenkins setup.
+2. build.bat: the Windows batch script. This is the one to use on a Windows Jenkins agent.
+3. build.sh: the Linux shell script. Do not use this on the Windows lab PC.
+4. build-info.txt: sample project information supplied with the practical.
+The Windows script contains TODO sections. Complete those sections in the supplied build.bat file as
+instructed by the practical. Do not create a different script from scratch.
+B. Prepare the project files
+1. On the college PC, locate or create the practical's project folder.
+2. Keep the supplied Windows batch script inside a folder named scripts.
+3. Keep the other supplied starter file(s) in the project folder as required by your teacher.
+4. The project folder must be available to the Jenkins job as its workspace contents.
+5. Check that the batch script is named build.bat and is inside the scripts folder.
+6. Do not put the Linux build.sh script in the Windows build step.
+Expected starting arrangement:
+Project folder
+scripts
+build.bat
+build-info.txt
+The output folder and generated report files are created when the build runs.
+C. Open the Jenkins dashboard
+1. Go to the college PC.
+2. Open Chrome, Edge, or the browser used in the lab.
+3. Enter the Jenkins address provided by your college.
+4. If your instructor says Jenkins is running locally on that PC, try the local Jenkins address using port
+8080.
+5. Sign in using the credentials supplied by the lab administrator.
+6. The Jenkins home page is called the Dashboard.
+If the page does not open, check with the lab instructor whether Jenkins is running and whether the lab
+uses a different address. Do not assume Jenkins is broken.
+D. Create the Freestyle project
+1. From the Jenkins Dashboard, select New Item.
+2. Enter the project name: Jenkins_Freestyle_Build.
+3. Select Freestyle project.
+4. Select OK.
+5. Jenkins opens the project configuration page.
+E. Configure the project to use the supplied files
+1. Make sure the supplied starter folder and files are available in this job's workspace.
+2. The README requires the script to run from the project workspace.
+3. Do not point the job to an unrelated folder on the Desktop unless your instructor specifically tells you to.
+4. If the lab has provided a method for placing starter files in the workspace, follow that method.
+5. If you cannot find the Workspace or cannot place files there, ask the instructor or lab administrator for
+the lab's intended file-placement method.
+F. Add the Windows build step
+1. In the project configuration page, find the Build Steps section.
+2. Select Add build step.
+3. Choose Execute Windows batch command.
+4. In the command field, enter the Windows script invocation specified in the teacher's README. It runs
+the batch script located in the scripts folder.
+5. Do not select Execute Shell on the Windows lab PC.
+6. Save the project configuration.
+G. Run the build
+1. Open the Jenkins_Freestyle_Build project page.
+2. Select Build Now.
+3. Wait for the build to finish.
+4. Look at Build History. A new build number should appear.
+5. Select that build number to open its details.
+6. Check whether Jenkins reports a successful build.
+7. Open Console Output and inspect the messages printed by the script.
+H. Check the generated files
+1. Open the job's Workspace.
+2. Look for the output folder.
+3. Open the output folder.
+4. Check for the generated build-report.txt file.
+5. Open the report and confirm that it contains the project name, build date, and build status.
+6. Also check for system-info.txt if your practical setup is expected to generate it.

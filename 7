@@ -1,0 +1,51 @@
+Q7 — BUILD AND EXECUTE THE JAVA STUDENT PROGRAM USING JENKINS
+A. Prepare the teacher-provided Java file
+1. Use the exact Student.java code supplied by your teacher.
+2. Save the file with the exact filename Student.java.
+3. Make sure Windows has not saved it as Student.java.txt.
+4. Place the Java file in the project location that will be available to the Jenkins job.
+5. Do not replace the teacher's code with a different example program.
+B. Open Jenkins
+1. Open the browser on the college PC.
+2. Navigate to the Jenkins address provided by the college.
+3. Sign in if prompted.
+4. From the Dashboard, select New Item.
+C. Create the Java Freestyle project
+1. Enter the project name: StudentBuild.
+2. Select Freestyle project.
+3. Select OK.
+4. Jenkins opens the project's configuration page.
+D. Configure Java for the job
+1. The college PC must have a JDK installed.
+2. The JDK must be available to Jenkins.
+3. If the examiner or lab instructor has already configured Java for Jenkins, use that existing configuration.
+4. If the project configuration page provides a JDK selection, select the configured JDK.
+5. Do not change global Jenkins settings unless instructed by the examiner.
+6. If Java is unavailable or the JDK selection is missing, ask the lab administrator rather than changing the
+installation.
+E. Configure the build step
+1. Open the StudentBuild project's Configure page.
+2. Find Build Steps.
+3. Select Add build step.
+4. On a Windows lab PC, choose Execute Windows batch command.
+5. Configure the build step to compile Student.java and then execute the compiled Student program.
+6. Make sure the job is running in the folder where Student.java is available.
+7. Save the configuration.
+F. Run and verify the Java build
+1. Open the StudentBuild project page.
+2. Select Build Now.
+3. Wait for the build to finish.
+4. Open the new build from Build History.
+5. Select Console Output.
+6. Confirm that the output displays the Student Details heading, roll number 101, name Asha, and
+department Information Technology.
+7. Confirm that Jenkins reports a successful build.
+G. Screenshots for Q7
+Capture the screenshots requested by your practical sheet. The usual evidence for this workflow includes:
+1. Jenkins Dashboard.
+2. Freestyle project configuration.
+3. Build step configuration.
+4. Successful build status.
+5. Console Output showing the Java program's execution results.
+6. Generated files or folders, if required by the practical instructions.
+7. Build History.

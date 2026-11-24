@@ -1,0 +1,30 @@
+Project: CollegeWebsite
+FIRST: On GitHub in your browser, create a NEW EMPTY repository named CollegeWebsite.
+Do not add a README, license, or .gitignore on GitHub.
+Copy its HTTPS URL, for example:
+https://github.com/USERNAME/CollegeWebsite.git
+Create the local project:
+1. cd ~/Desktop
+2. mkdir CollegeWebsite
+3. cd CollegeWebsite
+4. printf "<!doctype html>\n<html>\n<head><title>College Website</title></head>\n<body><h1>Welcome to Our College</h1></body>\n</html>\n" > index.html
+5. printf "College website project\n" > README.md
+Initialize, stage, and commit:
+6. git init
+7. git branch -M main
+8. git status
+9. git add .
+10. git status
+11. git commit -m "Initial CollegeWebsite project"
+Connect the local repository to GitHub and push:
+12. git remote add origin https://github.com/USERNAME/CollegeWebsite.git
+13. git remote -v
+14. git push -u origin main
+Make a subsequent update and push it:
+15. printf "\n<p>About our college</p>\n" >> index.html
+16. git status
+17. git add index.html
+18. git commit -m "Updated college website"
+19. git push
+20. git log --oneline
+21. git status
